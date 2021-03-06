@@ -19,6 +19,7 @@ public class Kart : MonoBehaviour
 
 	[SerializeField]
 	private Transform m_Model;
+	private Vector3 m_StartPos;
 
 	private Rigidbody m_RigidBody;
 	private float m_DefaultDrag;
@@ -30,6 +31,7 @@ public class Kart : MonoBehaviour
 		Debug.Assert(m_Model, "Must have Model!");
 
 		m_DefaultDrag = m_RigidBody.drag;
+		m_StartPos = transform.position;
 	}
 
 	private void FixedUpdate()
@@ -68,6 +70,9 @@ public class Kart : MonoBehaviour
 		}
 		else if (Input.GetKey(KeyCode.LeftShift))
 			m_RigidBody.drag = m_BreakDrag;
+
+		if (transform.position.y < -5)
+			transform.position = m_StartPos;
 
 		if (m_RigidBody.velocity.magnitude > m_MaxSpeed)
 			m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxSpeed;
